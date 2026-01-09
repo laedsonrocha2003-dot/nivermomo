@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para meu Amor ❤️</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* --- CONFIGURAÇÕES GERAIS --- */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #4a4a4a;
+            overflow-x: hidden;
+            /* Fundo principal será controlado pelo #bokeh-background */
+        }
+
+        /* --- NOVO: FUNDO ANIMADO (BOKEH) PARA EMOÇÃO --- */
+        #bokeh-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #ff758c 10%, #ff7eb3 100%); /* Mantendo o gradiente da Intro */
+            overflow: hidden;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .bokeh-dot {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            opacity: 0;
+            animation: bokeh-float 15s infinite ease-in-out alternate;
+        }
+        
+        /* Definindo variações de bokeh para efeito visual */
+        .bokeh-dot:nth-child(even) { background: rgba(255, 105, 180, 0.3); }
+        .bokeh-dot:nth-child(3n) { background: rgba(255, 220, 220, 0.5); }
+
+
+        @keyframes bokeh-float {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+            50% { transform: translate(20vw, 50vh) scale(1.2); opacity: 0.8; }
+            100% { transform: translate(-10vw, -20vh) scale(0.8); opacity: 0.6; }
+        }
+        
+        /* --- ANIMAÇÃO DE CORAÇÕES (Mantida) --- */
+        .hearts-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        .heart {
+            position: absolute;
+            bottom: -10vh;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 2rem;
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- TELA DE INTRODUÇÃO MELHORADA --- */
+        #intro-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #ff758c 10%, #ff7eb3 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease-out, transform 1s ease-in-out; 
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* NOVO: ESTILO PARA OS VERSÍCULOS FLUTUANTES */
+        .bible-verse {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.5); /* Mais claro */
+            font-size: 1.2rem;
+            font-weight: bold;
+            pointer-events: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            font-style: italic;
+            /* Animação de flutuação e rotação suave */
+            animation: verse-float 20s infinite ease-in-out alternate; 
+        }
+
+        @keyframes verse-float {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 0.5; }
+            50% { transform: translate(5px, 5px) rotate(1deg); opacity: 0.6; }
+            100% { transform: translate(-5px, -5px) rotate(-1deg); opacity: 0.5; }
+        }
+
+        /* Posições fixas para os versículos */
+        #v1 { top: 10%; left: 5%; font-size: 1.4rem; animation-duration: 25s; }
+        #v2 { top: 5%; right: 10%; animation-delay: 3s; }
+        #v3 { bottom: 15%; left: 20%; animation-duration: 18s; }
+        #v4 { bottom: 30%; right: 5%; font-size: 1.6rem; animation-delay: 5s; }
+        #v5 { top: 40%; left: 50%; transform: translateX(-50%); animation-duration: 22s; }
+        #v6 { bottom: 5%; left: 70%; animation-delay: 8s; font-size: 1.1rem; }
+
+
+        #intro-screen h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            z-index: 1001; 
+        }
+
+        .typing-box {
+            background: rgba(255, 255, 255, 0.9);
+            color: #ff758c;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            min-height: 40px; 
+            font-size: 1.3rem;
+            max-width: 90%;
+            overflow: hidden;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            z-index: 1001;
+        }
+
+        .btn-start {
+            background: white;
+            color: #ff758c;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+            display: none; 
+            animation: pulse-strong 1.5s infinite; 
+            z-index: 1001;
+        }
+
+        @keyframes pulse-strong {
+            0% { transform: scale(1); box-shadow: 0 0 10px rgba(255,255,255,0.7); }
+            50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(255,255,255,1); }
+            100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,255,255,0.7); }
+        }
+
+        /* --- CONTEÚDO PRINCIPAL (ESTILOS RESTAURADOS) --- */
+        #main-content {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        h2 { 
+            color: #d63384; 
+            text-align: center; 
+            margin-top: 40px; 
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ff9a9e; 
+            font-size: 1.8rem;
+            font-weight: 300;
+        }
+        h2::before, h2::after {
+            content: '💖';
+            font-size: 0.8em;
+            margin: 0 10px;
+        }
+        p { font-size: 1.1rem; line-height: 1.6; color: #555; text-align: justify; }
+
+        /* --- BANNER DE BOAS-VINDAS --- */
+        #welcome-banner {
+            text-align: center;
+            padding: 30px 20px;
+            margin: 30px 0;
+            background: linear-gradient(45deg, #ff8c9a, #ffd1dc);
+            border-radius: 15px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        #welcome-banner h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        #welcome-banner p {
+            color: white;
+            font-size: 1.1rem;
+            line-height: 1.4;
+        }
+
+        /* --- CARROSSEL --- (Estilos omitidos por brevidade, mas mantidos os da versão anterior) */
+        .carousel-container {
+            position: relative;
+            max-width: 500px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            background: #fdfdff;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            aspect-ratio: 1 / 1.1; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; 
+            display: block;
+        }
+
+        .carousel-slide-text {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 105, 135, 0.9);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+        /* --- FIM CARROSSEL --- */
+        
+        /* --- 6 FOTOS ESPECIAIS (Cartas Viradas: CLIQUE/TOQUE) --- (Estilos omitidos por brevidade, mas mantidos os da versão anterior) */
+        .special-photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .special-photo-item {
+            position: relative;
+            aspect-ratio: 1 / 1.1;
+            perspective: 1000px; 
+            cursor: pointer;
+        }
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .special-photo-item:hover .card-inner,
+        .special-photo-item:focus .card-inner { 
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; 
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .card-front { background: #ff758c; color: white; font-size: 1.5rem; font-weight: bold; }
+        .card-back { background: white; transform: rotateY(180deg); }
+        .card-back img { max-width: 95%; max-height: 95%; object-fit: contain; border-radius: 8px; }
+        .card-caption { font-size: 0.9rem; color: #555; margin-top: 5px; }
+        /* --- FIM 6 FOTOS ESPECIAIS --- */
+
+        /* --- VÍDEOS NATIVOS (GRADE 2x2) --- (Estilos omitidos por brevidade, mas mantidos os da versão anterior) */
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px; }
+        .video-wrapper { background: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden; position: relative; aspect-ratio: 1 / 1; transition: transform 0.3s; }
+        .video-wrapper:hover { transform: scale(1.05); }
+        .video-wrapper video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        /* --- FIM VÍDEOS --- */
+
+
+        /* --- CONTADOR DE ANIVERSÁRIO (Dias para a Próxima Data) --- */
+        #anniversary-counter {
+            text-align: center;
+            background: #ffe3e3; 
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #d63384;
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: glow-soft 1.5s infinite alternate;
+        }
+        @keyframes glow-soft {
+            from { box-shadow: 0 0 5px #ff9a9e; }
+            to { box-shadow: 0 0 10px #ff758c; }
+        }
+
+        /* --- BANNER DE DEDICATÓRIA FINAL --- */
+        #dedication-banner {
+            margin-top: 60px;
+            padding: 40px;
+            background: #d63384;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        #dedication-banner h3 {
+            font-size: 2.2rem;
+            margin-top: 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        #dedication-banner p {
+            color: #ffd1dc;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-top: 20px;
+        }
+         @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="bokeh-background"></div>
+
+    <div class="hearts-container" id="hearts"></div>
+
+    <div id="intro-screen">
+        
+        <div class="bible-verse" id="v1">"Em tudo dai graças." — 1 Ts 5:18</div>
+        <div class="bible-verse" id="v2">"O amor é paciente, o amor é bondoso." — 1 Co 13:4</div>
+        <div class="bible-verse" id="v3">"Mulher virtuosa, quem a achará? O seu valor muito excede o de rubis." — Pv 31:10</div>
+        <div class="bible-verse" id="v4">"Acima de tudo, porém, revistam-se do amor, que é o elo perfeito." — Cl 3:14</div>
+        <div class="bible-verse" id="v5">"Com amor eterno eu te amei; por isso, com benignidade te atraí." — Jr 31:3</div>
+        <div class="bible-verse" id="v6">"Assim, permanecem agora estes três: a fé, a esperança e o amor. O maior deles, porém, é o amor." — 1 Co 13:13</div>
+
+
+        <h1>Tá preparada? ❤️</h1>
+        <div class="typing-box">
+            <span id="typing-text"></span>
+        </div>
+        <button class="btn-start" id="btn-start" onclick="iniciarSurpresa()">EU TE AMO! 🎁</button>
+    </div>
+
+    <audio id="bg-music" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="main-content">
+        
+        <div style="text-align: center; padding: 20px 0;">
+            <h1 style="color: #ff4d4d; font-size: 2.2rem;">Feliz Aniversário, Minha princesinha linda! <3 🎉</h1>
+        </div>
+
+        <div id="anniversary-counter"></div>
+
+        <div id="welcome-banner">
+            <h3>Uma celebração de todos os nossos momentos, feitos de carinho, risadas e muito amor.</h3>
+            <p>"Que a vida te traga a mesma alegria que você traz para a minha, todos os dias."</p>
+        </div>
+
+        <p>
+            Hoje é seu dia momo, o dia da pessoa mais importante da minha vida. Preparei esse cantinho pra gente relembrar nossos momentos. Espero que goste &lt;3
+        </p>
+
+        <hr style="border: 0; border-top: 2px dashed #ff9a9e; margin: 30px 0;">
+
+        <h2>📸 Não dava para deixar de fora vários momentos nossos e ENALTECER o quão bela e incrível você é!</h2>
+        <div class="carousel-container">
+            <div class="carousel-track" id="carousel-track">
+                </div>
+            
+            <button class="carousel-button prev-button" onclick="changeSlide(-1)">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="carousel-button next-button" onclick="changeSlide(1)">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+
+        <hr style="border: 0; border-top: 2px dashed #ff9a9e; margin: 30px 0;">
+
+        <h2>SOU SIMPLESMENTE O HOMEM MAIS FELIZ E SORTUDO DO MUNDO!</h2>
+        <p style="text-align: center; font-size: 0.9rem; color: #888;">Clique ou toque nas cartas para revelar a surpresa!</p>
+        <div class="special-photo-grid">
+
+            <div class="special-photo-item" tabindex="0"> 
+                <div class="card-inner">
+                    <div class="card-front">Como que fica... (1/6)</div>
+                    <div class="card-back">
+                        <img src="foto22.jpeg" alt="Lembrança 1">
+                    </div>
+                </div>
+                <div class="card-caption">Temos que ver isso ai!</div>
+            </div>
+
+            <div class="special-photo-item" tabindex="0">
+                <div class="card-inner">
+                    <div class="card-front">É muita saudades (2/6)</div>
+                    <div class="card-back">
+                        <img src="foto23.jpeg" alt="Lembrança 2">
+                    </div>
+                </div>
+                <div class="card-caption">TODO DIA O DIA TODO</div>
+            </div>
+
+            <div class="special-photo-item" tabindex="0">
+                <div class="card-inner">
+                    <div class="card-front">E o 4 seria ainda mais de você! (3/6)</div>
+                    <div class="card-back">
+                        <img src="foto24.jpeg" alt="Lembrança 3">
+                    </div>
+                </div>
+                <div class="card-caption">Você na minha vida é tudo!]</div>
+            </div>
+
+            <div class="special-photo-item" tabindex="0">
+                <div class="card-inner">
+                    <div class="card-front">PARADA AI!! (4/6)</div>
+                    <div class="card-back">
+                        <img src="foto25.jpeg" alt="Lembrança 4">
+                    </div>
+                </div>
+                <div class="card-caption">AGORA PODE SE MEXER!</div>
+            </div>
+
+            <div class="special-photo-item" tabindex="0">
+                <div class="card-inner">
+                    <div class="card-front">Tudo em mim, ama tudo em você! (5/6)</div>
+                    <div class="card-back">
+                        <img src="foto26.jpeg" alt="Lembrança 5">
+                    </div>
+                </div>
+                <div class="card-caption">TODOS ELES</div>
+            </div>
+
+            <div class="special-photo-item" tabindex="0">
+                <div class="card-inner">
+                    <div class="card-front">Sempre foi você! (6/6)</div>
+                    <div class="card-back">
+                        <img src="foto27.jpeg" alt="Lembrança 6">
+                    </div>
+                </div>
+                <div class="card-caption">E SEMPRE SERÁ! EU TE AMO MUITO!</div>
+            </div>
+            
+        </div>
+
+        <hr style="border: 0; border-top: 2px dashed #ff9a9e; margin: 30px 0;">
+
+        <h2>🎬 A DONA DO MELHOR BEIJO DO MUNDO - SEMPRE FAZENDO MEU CORAÇÃO PARAR - ENALTECER SUA BELEZA NUNCA É DEMAIS, O SORRISO MAIS LINDO DO MUNDO - MAIS E MAIS DA SUA BELEZA E MEU SONHO COM VOCÊ!!</h2>
+        <div class="video-grid">
+            <p style="grid-column: 1 / -1; font-size: 0.9rem; color: #888; text-align: center; margin-bottom: 10px;">Clique no play para reviver esses momentos!</p>
+            
+            <div class="video-wrapper">
+                <video controls class="my-video" id="v1">
+                    <source src="video1.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+            
+            <div class="video-wrapper">
+                <video controls class="my-video" id="v2">
+                    <source src="video2.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+
+            <div class="video-wrapper">
+                <video controls class="my-video" id="v3">
+                    <source src="video3.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+
+            <div class="video-wrapper">
+                <video controls class="my-video" id="v4">
+                    <source src="video4.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+
+            <div class="video-wrapper">
+                <video controls class="my-video" id="v5">
+                    <source src="video5.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+
+            <div class="video-wrapper">
+                <video controls class="my-video" id="v6">
+                    <source src="video6.mp4" type="video/mp4">
+                    Seu navegador não suporta a tag de vídeo.
+                </video>
+            </div>
+            
+        </div>
+
+        <div id="dedication-banner">
+            <h3>VOCÊ É MEU PRESENTE!</h3>
+            <p>
+                Este site é apenas um pequeno reflexo do universo de alegria que você trouxe para minha vida. 
+                Que este novo ciclo seja ainda mais mágico. 
+                <br><br>
+                Eu te amo, hoje e em todos os nossos futuros!
+            </p>
+            <p style="color: white; font-weight: bold; font-style: italic;">— Com todo meu amor, Seu Momo</p>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. CRIAÇÃO E CONTROLE DO CARROSSEL ---
+        let slideIndex = 0;
+        const totalSlides = 21; 
+        const carouselTrack = document.getElementById('carousel-track');
+
+        function loadCarousel() {
+            let html = '';
+            for (let i = 1; i <= totalSlides; i++) {
+                let caption = `Momento ${i} / ${totalSlides}`; 
+                html += `
+                    <div class="carousel-slide">
+                        <img src="foto${i}.jpeg" alt="Momento ${i}">
+                        <div class="carousel-slide-text">${caption}</div>
+                    </div>
+                `;
+            }
+            carouselTrack.innerHTML = html;
+            updateCarousel();
+        }
+
+        function changeSlide(n) {
+            slideIndex += n;
+            if (slideIndex >= totalSlides) {
+                slideIndex = 0;
+            } else if (slideIndex < 0) {
+                slideIndex = totalSlides - 1;
+            }
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const offset = -slideIndex * 100;
+            carouselTrack.style.transform = `translateX(${offset}%)`;
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCarousel);
+
+
+        // --- 2. TELA DE INTRODUÇÃO: EFEITO TYPING ---
+        const message = "Eu sei que você estava esperando algo... Mas preparei algo só nosso, que celebra você! Com muito amor e carinho...";
+        let i = 0;
+        const speed = 50; 
+
+        function typeWriter() {
+            if (i < message.length) {
+                document.getElementById("typing-text").innerHTML += message.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            } else {
+                document.getElementById('btn-start').style.display = 'block';
+            }
+        }
+
+        // --- 3. CONTROLE DA MÚSICA DE FUNDO E VÍDEOS + INICIAR (Transição Aprimorada) ---
+        function iniciarSurpresa() {
+            var intro = document.getElementById('intro-screen');
+            var main = document.getElementById('main-content');
+            var audio = document.getElementById('bg-music');
+
+            audio.volume = 0.3; 
+            audio.play().catch(error => { console.log("Erro no audio autplay"); });
+
+            // Animação de zoom e desvanecimento para transição mais emotiva
+            intro.style.opacity = '0';
+            intro.style.transform = 'scale(1.2)';
+
+            setTimeout(function() {
+                intro.style.display = 'none';
+                main.style.display = 'block';
+                main.style.animation = 'fadeIn 2s';
+            }, 1000); // 1 segundo para a transição terminar
+        }
+
+        document.querySelectorAll('.my-video').forEach(video => {
+            video.onplay = function() {
+                document.getElementById('bg-music').pause();
+            };
+            video.onpause = function() {
+                document.getElementById('bg-music').play().catch(error => { console.log("Erro ao retomar o áudio"); });
+            };
+            video.onended = function() {
+                document.getElementById('bg-music').play().catch(error => { console.log("Erro ao retomar o áudio"); });
+            };
+        });
+
+        // --- 4. CONTADOR DE ANIVERSÁRIO (Dias para a Próxima Data) ---
+        function updateAnniversaryCounter() {
+            // EDITE A DATA IMPORTANTE: ANO, MÊS (0=Jan, 1=Fev...), DIA
+            const anniversaryDay = 10; // Dia 10
+            const anniversaryMonth = 0; // Janeiro (0)
+            
+            const now = new Date();
+            let currentYear = now.getFullYear();
+
+            // Define a data de aniversário para o ano atual
+            let nextAnniversary = new Date(currentYear, anniversaryMonth, anniversaryDay);
+
+            // Se a data de aniversário já passou este ano, define para o próximo ano
+            if (nextAnniversary < now) {
+                nextAnniversary.setFullYear(currentYear + 1);
+            }
+
+            const diffTime = nextAnniversary - now;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            let message = '';
+
+            if (diffDays === 0) {
+                // Checa se é exatamente hoje (o contador roda o dia todo)
+                if (now.getMonth() === anniversaryMonth && now.getDate() === anniversaryDay) {
+                     message = "🎉 HOJE É O DIA EM QUE MEU AMOR NASCEU! CELEBRE! 🎉";
+                } else {
+                    // Cobre a diferença de horas, mas o ideal é que esse bloco seja ativado exatamente no dia
+                    message = `Faltam menos de 24 horas para o nosso próximo aniversário! ❤️`;
+                }
+            } else if (diffDays === 1) {
+                message = `AMANHÃ é o nosso próximo dia especial! ❤️`;
+            } else if (diffDays <= 7) {
+                 message = `Faltam apenas ${diffDays} dias para o nosso dia especial!`;
+            } else {
+                 message = `Faltam ${diffDays} dias para o nosso próximo aniversário!`;
+            }
+
+            document.getElementById('anniversary-counter').innerHTML = message;
+        }
+
+
+        // --- 5. CRIAÇÃO DO FUNDO BOKEH DINÂMICO ---
+        function createBokehBackground() {
+            const bokehContainer = document.getElementById('bokeh-background');
+            const totalDots = 30; 
+
+            for (let i = 0; i < totalDots; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('bokeh-dot');
+                
+                dot.style.width = dot.style.height = `${Math.random() * 8 + 4}rem`;
+                dot.style.left = `${Math.random() * 100}vw`;
+                dot.style.top = `${Math.random() * 100}vh`;
+
+                dot.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                dot.style.animationDelay = `${Math.random() * 15}s`;
+
+                bokehContainer.appendChild(dot);
+            }
+        }
+
+
+        // --- INICIALIZAÇÃO ---
+        document.addEventListener('DOMContentLoaded', () => {
+            typeWriter();
+            updateAnniversaryCounter();
+            createBokehBackground(); 
+            // Atualiza a cada 24 horas
+            setInterval(updateAnniversaryCounter, 1000 * 60 * 60 * 24); 
+        });
+
+    </script>
+
+</body>
+</html>
